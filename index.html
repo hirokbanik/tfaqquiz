@@ -1,46 +1,31 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
   <head>
-    <title>Vanilla + Go API</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>tfaq quiz</title>
     <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
   </head>
   <body>
-    <h1>Welcome to a Static Site with Data from a Go API</h1>
-    <h2>
-      Deployed with
-      <a href="https://zeit.co/docs" target="_blank" rel="noreferrer noopener"
-        >ZEIT Now</a
-      >!
-    </h2>
-    <p>
-      <a
-        href="https://github.com/zeit/now-examples/blob/master/vanilla-functions"
-        target="_blank"
-        rel="noreferrer noopener"
-        >This project</a
-      >
-      includes three files. A static <code>index.html</code> file as the
-      homepage, a static <code>style.css</code> file for styling, and a
-      <code>api/date.go</code> serverless function that returns the date on
-      invocation. See
-      <a href="/api/date.go"
-        ><code>api/date.go</code> for the Date API with Go</a
-      >.
-    </p>
-    <br />
-    <h3>The date according to Go is:</h3>
-    <p class="date">Loading date...</p>
-    <script>
-      function main() {
-        return fetch('/api/date.go')
-          .then(function(response) {
-            return response.text();
-          })
-          .then(function(date) {
-            document.querySelector('.date').textContent = date;
-          });
-      }
-      main();
-    </script>
+    <div class="wrapper">
+      <div class="box">
+        <!-- <div class="timer">
+          <div class="timer-bar">22</div>
+        </div> -->
+        <div class="progress-question"></div>
+        <div class="question"></div>
+        <div class="choice-box">
+          <!-- <div class="choice">A</div>
+          <div class="choice">B</div>
+          <div class="choice">C</div>
+          <div class="choice">D</div> -->
+        </div>
+        <div class="button">
+          Start
+        </div>
+      </div>
+    </div>
   </body>
 </html>
