@@ -76,10 +76,11 @@ body {
 .choice-box {
   box-shadow: var(--box-content-inset);
   display: grid;
-  grid-auto-rows: 40px;
+  grid-auto-rows: max-content;
   grid-row-gap: 1rem;
 }
 .choice {
+  padding: 0.5rem;
   border: 2px solid #a981c980;
   display: flex;
   justify-content: center;

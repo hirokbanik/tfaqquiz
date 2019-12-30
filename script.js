@@ -72,6 +72,7 @@
   }
 
   function buildQuestions() {
+    getQuestions();
     let rawData = JSON.parse(localStorage.getItem("test_questions"));
     let data = rawData.results.map(i => {
       i.choices = [...i.incorrect_answers, i.correct_answer];
