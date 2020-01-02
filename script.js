@@ -1,25 +1,26 @@
 (function() {
-  const progress = $(".progress-question");
-  const question = $(".question");
+  const progress = $(".progress");
+  const questionBox = $(".question-box");
   const choiceBox = $(".choice-box");
   const button = $(".button");
   let questions = [];
   let current_question = "";
   let choices = [];
   let correct = "";
-  let score = 0;
   let count = 1;
+  let score = 0;
+
+  questionBox.innerHTML = `<div class="score"><h2>PLAY QUIZ</h2><div>`;
 
   button.addEventListener("click", () => {
-    if (button.innerText != "Next") {
+    if (button.innerText != "Pass") {
       buildQuestions();
       updateDOM();
-      button.innerText = "Next";
+      button.innerText = "Pass";
     } else updateDOM();
   });
 
   choiceBox.addEventListener("click", e => {
-    // debugger;
     if (!e.target.classList.contains("choice")) return;
     if (e.target.innerText == correct) {
       e.target.style.backgroundColor = "#00ff007e";
@@ -30,9 +31,17 @@
       e.target.parentElement.childNodes.forEach(i => {
         if (i.innerText == correct) i.style.backgroundColor = "#00ff007e";
       });
-      setTimeout(updateDOM, 1000);
+      setTimeout(updateDOM, 1500);
     }
   });
+
+  function showResult() {
+    choiceBox.innerHTML = "";
+    button.innerText = "Play";
+    questionBox.innerHTML = `<div class="score"><h3>Your Score</h3><h1>${score}</h1><div>`;
+    count = 1;
+    score = 0;
+  }
 
   function updateDOM() {
     if (count > 10) {
@@ -40,11 +49,11 @@
     } else {
       let current = questions[count - 1];
       current_question = current.question;
-      choices = current.choices;
-      correct = current.correct_answer;
+      choices = current.choices.map(i => parser(i));
+      correct = parser(current.correct_answer);
 
       progress.innerHTML = `${count}/${questions.length}`;
-      question.innerHTML = current_question;
+      questionBox.innerHTML = current_question;
       choiceBox.innerHTML = "";
       while (choices.length != 0) {
         let randomNumber = Math.floor(Math.random() * choices.length);
@@ -54,14 +63,6 @@
       }
       count++;
     }
-  }
-
-  function showResult() {
-    choiceBox.innerHTML = "";
-    button.innerText = "Play";
-    question.innerHTML = `<div class="score"><h3>Your Score</h3><h1>${score}</h1><div>`;
-    count = 1;
-    score = 0;
   }
 
   function createElement(option) {
@@ -83,8 +84,18 @@
 
   async function getQuestions() {
     let apiURL = "https://opentdb.com/api.php?amount=10";
-    let response = await fetch(apiURL).then(res => res.json());
-    localStorage.setItem("test_questions", JSON.stringify(response));
+    let response = await fetch(apiURL)
+      .then(res => res.json())
+      .catch(e => console.log(e));
+    if (response)
+      localStorage.setItem("test_questions", JSON.stringify(response));
+    else alert("No connection");
+  }
+
+  function parser(str) {
+    const parser = new DOMParser();
+    let text = parser.parseFromString(str, "text/html");
+    return text.body.innerText;
   }
 
   function $(el) {
